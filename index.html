@@ -11,18 +11,18 @@
     <!-- Music Toggle -->
     <button class="music-toggle" onclick="toggleMusic()">🎵</button>
     <audio id="bgMusic" loop>
-        <!-- You can add a romantic music URL here -->
+       
         <source src="./perfect.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
-        <!-- Question Page -->
+       <!-- front page -->
         <div class="question-box" id="questionBox">
             <div class="big-emoji">💝</div>
             <h1>Hey There! 🌹</h1>
             <p class="subtitle">Will You Be My Valentine?</p>
 
-            <!-- Love Meter -->
+           
             <div class="love-meter">
                 <div class="love-fill" id="loveFill">0%</div>
             </div>
@@ -108,7 +108,7 @@
             setTimeout(() => heart.remove(), 10000);
         }
 
-        // Create hearts continuously
+        
         setInterval(createHeartParticle, 300);
 
         // Move NO button
@@ -120,7 +120,7 @@
             const loveFill = document.getElementById('loveFill');
             const yesBtn = document.querySelector('.btn-yes');
             
-            // Update encouragement message
+          
             const messageIndex = Math.min(noClickCount, encouragements.length - 1);
             encouragement.textContent = encouragements[messageIndex];
             
@@ -129,10 +129,10 @@
             loveFill.style.width = lovePercent + '%';
             loveFill.textContent = lovePercent + '%';
             
-            // Calculate new size for NO button
+           
             const newSize = Math.max(0.5, 1 - (noClickCount * 0.08));
             
-            // Grow YES button
+          
             const yesGrowth = 1 + (noClickCount * 0.1);
             yesBtn.style.transform = `scale(${yesGrowth})`;
             
@@ -143,7 +143,7 @@
             noBtn.style.left = Math.random() * maxX + 'px';
             noBtn.style.top = Math.random() * maxY + 'px';
             
-            // Shake the question box
+           
             const questionBox = document.getElementById('questionBox');
             questionBox.style.animation = 'none';
             setTimeout(() => {
@@ -159,14 +159,14 @@
             questionBox.style.display = 'none';
             successPage.style.display = 'block';
             
-            // Create confetti explosion
+          
             for (let i = 0; i < 100; i++) {
                 setTimeout(() => createConfetti(), i * 30);
             }
             
-            // Continue confetti for 5 seconds
+            
             const confettiInterval = setInterval(createConfetti, 100);
-            setTimeout(() => clearInterval(confettiInterval), 5000);
+            setTimeout(() => clearInterval(confettiInterval), 3000);
         }
 
         // Create confetti
@@ -199,7 +199,7 @@
             }
         }
 
-        // Try to auto-play music when page loads
+        
         window.addEventListener('load', function() {
             const music = document.getElementById('bgMusic');
             music.play().then(() => {
@@ -221,7 +221,7 @@
 
     
 
-        // Add emoji to message list items
+       
         const messages = document.querySelectorAll('.message-list p');
         messages.forEach((msg, i) => {
             const emojis = ['🌹', '✨', '🎈', '💖'];
