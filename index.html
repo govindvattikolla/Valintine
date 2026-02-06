@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Be My Valentine? 💝</title>
+    <link rel="stylesheet" href="./style.css">
+    
+</head>
+<body>
+    <!-- Music Toggle -->
+    <button class="music-toggle" onclick="toggleMusic()">🎵</button>
+    <audio id="bgMusic" loop>
+        <!-- You can add a romantic music URL here -->
+        <source src="./perfect.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <!-- Question Page -->
+        <div class="question-box" id="questionBox">
+            <div class="big-emoji">💝</div>
+            <h1>Hey There! 🌹</h1>
+            <p class="subtitle">Will You Be My Valentine?</p>
+
+            <!-- Love Meter -->
+            <div class="love-meter">
+                <div class="love-fill" id="loveFill">0%</div>
+            </div>
+
+            <p class="encouragement" id="encouragement">💕</p>
+
+            <div class="button-container">
+                <button class="btn-yes" onclick="acceptProposal()">
+                    <span>Yes! 💕</span>
+                </button>
+                <button class="btn-no" id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">
+                    No 😢
+                </button>
+            </div>
+
+            <p style="color: #999; margin-top: 25px; font-style: italic; font-size: 0.95rem;">
+                (Hint: Only one button will make me happy! 😉)
+            </p>
+        </div>
+
+        <!-- Success Page -->
+        <div class="success-page" id="successPage">
+            <div class="success-emoji">❤️</div>
+            <h1>YAAAY! 🥳</h1>
+            <p style="color: #c2185b; font-size: clamp(1.3rem, 4vw, 2rem); margin: 20px 0; font-weight: bold;">
+                You just made me the happiest person! 💕
+            </p>
+
+          
+
+            <!-- Romantic Video -->
+            <div style="margin: 30px 0; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div style="position: relative; padding-bottom: 36.25%">
+                <img src="./cutelove.gif" width="400" height="350" alt="cute love gif">
+
+            <div class="message-list">
+                <p style="--emoji: '🌹';">Get ready for an unforgettable Valentine's Day!</p>
+                <p style="--emoji: '✨';">I promise to make every moment special</p>
+                <p style="--emoji: '🎈';">Can't wait to create beautiful memories together</p>
+                <p style="--emoji: '💖';">You're the best thing that ever happened to me</p>
+            </div>
+
+            
+
+            <div style="font-size: 60px; margin-top: 30px;">
+                😍 💑 🥰
+            </div>
+            <button onclick="window.location.href='/'" class="back-btn">Back to home</button>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 1;
+        let musicPlaying = false;
+        let noButtonActive = false;
+
+        const encouragements = [
+            "💕",
+            "Come on... you know you want to say yes! 🥺",
+            "The 'No' button is feeling shy today... 💖",
+            "Please? I'll be the best Valentine ever! 🌹✨",
+            "Pretty please with a cherry on top? 🍒💕",
+            "I'll give you all my cookies! 🍪❤️",
+            "Think of all the fun we'll have! 🎉💝",
+            "The 'No' button doesn't even want to be clicked! 😅",
+            "Your finger is clearly trying to click 'Yes'! 👆💕",
+            "Even the universe wants us together! ✨🌟",
+            "This is fate trying to tell you something! 💫",
+            "You can't escape destiny (or this button)! 😊💖",
+            "I'm not giving up! Are you? 🥹❤️"
+        ];
+
+        // Create floating hearts
+        function createHeartParticle() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = ['💕', '💖', '💗', '💓', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+            heart.style.fontSize = (15 + Math.random() * 15) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 10000);
+        }
+
+        // Create hearts continuously
+        setInterval(createHeartParticle, 300);
+
+        // Move NO button
+        function moveNoButton() {
+            noClickCount++;
+            noButtonActive = true;
+            
+            const encouragement = document.getElementById('encouragement');
+            const loveFill = document.getElementById('loveFill');
+            const yesBtn = document.querySelector('.btn-yes');
+            
+            // Update encouragement message
+            const messageIndex = Math.min(noClickCount, encouragements.length - 1);
+            encouragement.textContent = encouragements[messageIndex];
+            
+            // Update love meter
+            const lovePercent = Math.min(noClickCount * 8, 100);
+            loveFill.style.width = lovePercent + '%';
+            loveFill.textContent = lovePercent + '%';
+            
+            // Calculate new size for NO button
+            const newSize = Math.max(0.5, 1 - (noClickCount * 0.08));
+            
+            // Grow YES button
+            const yesGrowth = 1 + (noClickCount * 0.1);
+            yesBtn.style.transform = `scale(${yesGrowth})`;
+            
+            // Move NO button to random position
+            noBtn.classList.add('running');
+            const maxX = window.innerWidth - 150;
+            const maxY = window.innerHeight - 80;
+            noBtn.style.left = Math.random() * maxX + 'px';
+            noBtn.style.top = Math.random() * maxY + 'px';
+            
+            // Shake the question box
+            const questionBox = document.getElementById('questionBox');
+            questionBox.style.animation = 'none';
+            setTimeout(() => {
+                questionBox.style.animation = 'shake 0.5s';
+            }, 10);
+        }
+
+        // Accept proposal
+        function acceptProposal() {
+            const questionBox = document.getElementById('questionBox');
+            const successPage = document.getElementById('successPage');
+            
+            questionBox.style.display = 'none';
+            successPage.style.display = 'block';
+            
+            // Create confetti explosion
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => createConfetti(), i * 30);
+            }
+            
+            // Continue confetti for 5 seconds
+            const confettiInterval = setInterval(createConfetti, 100);
+            setTimeout(() => clearInterval(confettiInterval), 5000);
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            const emojis = ['💖', '💕', '💗',  '💝', '🌹', '🎉', '🎊', '💐', '🌸'];
+            confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-50px';
+            confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 3000);
+        }
+
+        // Music toggle
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.querySelector('.music-toggle');
+            
+            if (musicPlaying) {
+                music.pause();
+                btn.textContent = '🔇';
+                musicPlaying = false;
+            } else {
+                music.play();
+                btn.textContent = '🎵';
+                musicPlaying = true;
+            }
+        }
+
+        // Try to auto-play music when page loads
+        window.addEventListener('load', function() {
+            const music = document.getElementById('bgMusic');
+            music.play().then(() => {
+                musicPlaying = true;
+                document.querySelector('.music-toggle').textContent = '🎵';
+            }).catch(e => {
+                console.log('Auto-play prevented, waiting for user interaction');
+                // Auto-start music on first click if auto-play fails
+                document.addEventListener('click', function startMusic() {
+                    if (!musicPlaying) {
+                        music.play().then(() => {
+                            musicPlaying = true;
+                            document.querySelector('.music-toggle').textContent = '🎵';
+                        }).catch(e => console.log('Audio play failed:', e));
+                    }
+                }, { once: true });
+            });
+        });
+
+    
+
+        // Add emoji to message list items
+        const messages = document.querySelectorAll('.message-list p');
+        messages.forEach((msg, i) => {
+            const emojis = ['🌹', '✨', '🎈', '💖'];
+            msg.style.setProperty('--emoji', `'${emojis[i]}'`);
+            const emoji = document.createElement('span');
+            emoji.textContent = emojis[i];
+            emoji.style.position = 'absolute';
+            emoji.style.left = '0';
+            emoji.style.fontSize = '1.5rem';
+            msg.insertBefore(emoji, msg.firstChild);
+        });
+    </script>
+</body>
+</html>
